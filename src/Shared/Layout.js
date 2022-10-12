@@ -4,18 +4,28 @@ import Footer from "./Footer";
 import Navigation from "./Navigation";
 import { color } from "../constants/colors";
 import { variables } from "../constants/variables";
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
-const Layout = ({ children, setShowBar, showBar, navigation }) => {
+const Layout = ({ children, setShowBar, showBar, navigation, route }) => {
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [showSearch, setShowSearch] = React.useState(false);
   return (
     <View style={styles.container}>
       <Navigation
         navigation={navigation}
-        setShowBar={setShowBar}
         showBar={showBar}
+        setShowBar={setShowBar}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        showSearch={showSearch}
       />
       <View style={styles.children}>{children}</View>
-      <Footer style={styles.footer} />
+      <Footer
+        style={styles.footer}
+        setShowSearch={setShowSearch}
+        showSearch={showSearch}
+        route={route}
+      />
     </View>
   );
 };

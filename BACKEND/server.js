@@ -1,5 +1,6 @@
-require("dotenv/config");
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
@@ -7,7 +8,15 @@ const connectDB = require("./db/connect");
 const cloudinary = require("cloudinary").v2;
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFound = require("./middleware/not-found");
-const products = require("./routes/products");
+const productsRouter = require("./routes/products");
+const usersRouter = require("./routes/users");
+const categoryRouter = require("./routes/category");
+const orderRouter = require("./routes/orders");
+const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/error-handler");
+
+const PORT = process.env.PORT;
+const api = process.env.BASE_ROUTE;
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -16,40 +25,22 @@ cloudinary.config({
 });
 
 // middleware
+app.use(cors());
+app.options("*", cors());
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
+app.use(authJwt());
+// Capture all errors
+app.use(errorHandler);
+
 app.use(express.static("../build"));
 app.use(express.static("../public"));
 
-const PORT = process.env.PORT;
-const api = process.env.BASE_ROUTE;
-
-// app.get(`${api}/products`, (req, res) => {
-//   const product = {
-//     id: 1,
-//     title: "Item-1",
-//     image: "Some url",
-//   };
-//   res.send(product);
-// });
-
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
-// app.post(`${api}/products`, (req, res) => {
-//   const response = req.body;
-//   console.log(response);
-//   res.send(response);
-// });
-
 // routes
-app.use("/api/v1/products", products);
+app.use(`${api}/products`, productsRouter);
+app.use(`${api}/users`, usersRouter);
+app.use(`${api}/categories`, categoryRouter);
+app.use(`${api}/orders`, orderRouter);
 
 // not found
 app.use(notFound);

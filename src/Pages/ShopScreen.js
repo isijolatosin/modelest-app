@@ -2,24 +2,19 @@ import { StyleSheet, StatusBar, SafeAreaView, View } from "react-native";
 import React from "react";
 import { color } from "../constants/colors";
 import Layout from "../Shared/Layout";
-import { Searchbar } from "react-native-paper";
+import SideBar from "../components/SideBar";
 
 const ShopScreen = ({ navigation, route }) => {
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [showBar, setShowBar] = React.useState(false);
   return (
     <SafeAreaView style={styles.container}>
-      <Layout navigation={navigation}>
-        <View>
-          <Searchbar
-            placeholder="Search"
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-            onIconPress={() => {}}
-            iconColor={color.black}
-            loading={true}
-            style={styles.searchBar}
-          />
-        </View>
+      <Layout
+        route={route}
+        navigation={navigation}
+        setShowBar={setShowBar}
+        showBar={showBar}
+      >
+        {showBar && <SideBar sytle={styles.shadowProp} />}
       </Layout>
     </SafeAreaView>
   );
@@ -34,20 +29,14 @@ const styles = StyleSheet.create({
     // StatusBar.currentHeight only works for android
     paddingTop: StatusBar.currentHeight + 10,
   },
-  backWrapper: {},
   shadowProp: {
     shadowColor: "#171717",
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.6,
     shadowRadius: 3,
   },
   elevation: {
     elevation: 10,
     shadowColor: "#171717",
-  },
-  searchBar: {
-    backgroundColor: "transparent",
-    marginTop: 5,
-    elevation: 0,
   },
 });

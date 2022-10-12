@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import React from "react";
 import { variables } from "../constants/variables";
 import { color } from "../constants/colors";
@@ -15,8 +21,15 @@ const SideBar = () => {
       setMenuSelect(e);
     }
   };
+
   return (
-    <View style={styles.menu}>
+    <View
+      style={
+        Platform.OS === variables.isAndroid
+          ? [styles.elevation, styles.menu]
+          : [styles.shadowProp, styles.menu]
+      }
+    >
       {variables.menu.map((item) => (
         <View style={styles.textCont} key={item.id} id={item.title}>
           <TouchableOpacity onPress={() => HandleMenu(item.title)}>
@@ -85,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.offWhite,
     color: color.black,
     position: "absolute",
-    top: 0,
+    top: 20,
     left: 0,
     zIndex: 10,
     width: 250,
@@ -114,5 +127,15 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     fontSize: fontSizes.xs,
     textTransform: "uppercase",
+  },
+  shadowProp: {
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  elevation: {
+    elevation: 20,
+    shadowColor: "#171717",
   },
 });

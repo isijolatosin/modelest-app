@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export const color = {
   white: "white",
   gold: "#bba371",
@@ -7,4 +6,5 @@ export const color = {
   black: "#000",
   offWhite: "#FEFBF6",
   grey: "#D8D8D8",
+  lightgrey: "#EEEEEE",
 };

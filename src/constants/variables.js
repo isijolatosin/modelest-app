@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
 export const variables = {
   isAndroid: "android",
+  isIOS: "ios",
   menu: [
     { id: 1, title: "indian" },
     { id: 2, title: "virgin" },
