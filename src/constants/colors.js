@@ -13,5 +13,6 @@ export const color = {
   lightgrey: "#EEEEEE",
   red: "#9a031e",
   torquoise: "#00b4d8",
+  torquoise2: "#4cc9f0",
   purple: "#4361ee",
 };

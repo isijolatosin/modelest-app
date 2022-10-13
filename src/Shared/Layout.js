@@ -33,6 +33,7 @@ const Layout = ({
         setShowSearch={setShowSearch}
         showSearch={showSearch}
         route={route}
+        navigation={navigation}
       />
     </View>
   );

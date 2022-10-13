@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import {
   StyleSheet,
@@ -12,25 +13,35 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
 
-const Footer = ({ setShowSearch, showSearch, route }) => {
+const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
   const [active, setActive] = React.useState("");
+
+  React.useEffect(() => {
+    setActive(route.name);
+  }, [active]);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
+          navigation.navigate("Home-Screen");
           setActive("shop");
         }}
         style={styles.icons}
       >
         <AntDesign
           name="home"
-          size={25}
-          color={active === "shop" ? color.gold : color.white}
+          size={18}
+          color={
+            active === "shop" && active !== "Shop-Screen"
+              ? color.gold
+              : color.white
+          }
         />
         <Text
           style={
             (styles.iconText,
-            active === "shop"
+            active === "shop" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
@@ -48,13 +59,17 @@ const Footer = ({ setShowSearch, showSearch, route }) => {
       >
         <AntDesign
           name="search1"
-          size={25}
-          color={active === "search" ? color.gold : color.white}
+          size={18}
+          color={
+            active === "search" && active !== "Shop-Screen"
+              ? color.gold
+              : color.white
+          }
         />
         <Text
           style={
             (styles.iconText,
-            active === "search"
+            active === "search" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
@@ -65,18 +80,23 @@ const Footer = ({ setShowSearch, showSearch, route }) => {
       <TouchableOpacity
         onPress={() => {
           setActive("me");
+          navigation.navigate("Profile-Screen");
         }}
         style={styles.icons}
       >
         <Ionicons
           name="person-outline"
-          size={27}
-          color={active === "me" ? color.gold : color.white}
+          size={18}
+          color={
+            active === "me" && active !== "Shop-Screen"
+              ? color.gold
+              : color.white
+          }
         />
         <Text
           style={
             (styles.iconText,
-            active === "me"
+            active === "me" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
@@ -88,14 +108,19 @@ const Footer = ({ setShowSearch, showSearch, route }) => {
       <TouchableOpacity
         onPress={() => {
           setActive("cart");
+          navigation.navigate("Cart-Screen");
         }}
         style={styles.icons}
       >
         <View style={styles.count}>
           <SimpleLineIcons
             name="handbag"
-            size={25}
-            color={active === "cart" ? color.gold : color.white}
+            size={18}
+            color={
+              active === "cart" && active !== "Shop-Screen"
+                ? color.gold
+                : color.white
+            }
           />
           <View style={styles.countTextWrapper}>
             <Text style={styles.countText}>0</Text>
@@ -104,7 +129,7 @@ const Footer = ({ setShowSearch, showSearch, route }) => {
         <Text
           style={
             (styles.iconText,
-            active === "cart"
+            active === "cart" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
@@ -113,26 +138,23 @@ const Footer = ({ setShowSearch, showSearch, route }) => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           setActive("signout");
         }}
         style={styles.icons}
       >
-        <Ionicons
-          name="md-log-out-outline"
-          size={25}
-          color={active === "signout" ? color.gold : color.white}
-        />
-        <Text
-          style={
-            active === "signout"
-              ? { color: color.gold, fontSize: 10 }
-              : { color: color.white, fontSize: 10 }
-          }
-        >
-          SignOut
-        </Text>
+        <Ionicons name="md-log-out-outline" size={18} color={color.white} />
+        <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Login-Screen");
+        }}
+        style={styles.icons}
+      >
+        <AntDesign name="login" size={18} color={color.white} />
+        <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
       </TouchableOpacity>
     </View>
   );
@@ -172,8 +194,8 @@ const styles = StyleSheet.create({
   count: { position: "relative" },
   countTextWrapper: {
     position: "absolute",
-    right: -10,
-    top: -13,
+    right: -15,
+    top: -18,
     backgroundColor: color.chocolate,
     flexDirection: "row",
     alignItems: "center",
