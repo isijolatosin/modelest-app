@@ -11,20 +11,41 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
 import Button from "../Shared/Button";
 import Heading from "../Shared/Heading";
+import { logInUser } from "../slices/appSlices";
 
 const { width } = Dimensions.get("window");
 
 const LoginScreen = ({ navigation }) => {
-  const inputAccessoryViewID = "uniqueID";
-  const [text, setText] = React.useState("");
+  const dispatch = useDispatch();
   const [focus, setFocus] = React.useState(false);
   const [secure, setSecure] = React.useState(true);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const authUser = { email: email, passwordHash: password };
+  const callSignInApi = async () => {
+    try {
+      const {
+        data: { user, token },
+      } = await axios.post(
+        `${process.env.REACT_APP_CRACK_URL}/api/v1/users/login`,
+        authUser
+      );
+      if (token) {
+        dispatch(logInUser(user));
+        navigation.navigate("Home-Screen");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -38,10 +59,10 @@ const LoginScreen = ({ navigation }) => {
             <Heading children="Login" />
           </View>
           <TextInput
+            name="email"
             style={styles.input}
-            inputAccessoryViewID={inputAccessoryViewID}
-            onChangeText={setText}
-            value={text}
+            onChangeText={setEmail}
+            value={authUser.email}
             setFocus={focus}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
@@ -49,11 +70,11 @@ const LoginScreen = ({ navigation }) => {
           />
           <View style={[styles.password]}>
             <TextInput
-              inputAccessoryViewID={inputAccessoryViewID}
-              value={text}
+              value={authUser.passwordHash}
+              name="passwordHash"
               placeholder={"Password…"}
               setFocus={focus}
-              onChangeText={() => {}}
+              onChangeText={setPassword}
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
               secureTextEntry={secure} //we just added this
@@ -67,7 +88,7 @@ const LoginScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={callSignInApi}>
             <Button
               title="Access"
               bgclr={color.chocolate}

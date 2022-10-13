@@ -17,6 +17,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import "expo/AppEntry";
+import { useSelector } from "react-redux";
+import { selectUser } from "../slices/appSlices";
 import { REACT_APP_LOGO } from "@env";
 import { color } from "../constants/colors";
 import { REACT_APP_CLOUDINARY_WIGS, REACT_APP_CLOUDINARY_BASEURL } from "@env";
@@ -29,6 +31,7 @@ const { height, width } = Dimensions.get("window");
 
 export default function HomeScreen({ navigation }) {
   const [allWigsCloudinaryImg, setAllWigsCloudinaryImg] = React.useState([]);
+  const user = useSelector(selectUser);
 
   const fetchCloudinaryImages = async () => {
     const {
@@ -88,6 +91,18 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.motto}>
           <Text style={styles.mottoText}>Your please, our luxury...</Text>
         </View>
+        {user?.firstname && (
+          <View style={styles.motto}>
+            <Text
+              style={[
+                styles.mottoText,
+                { fontSize: fontSizes.xxl, color: color.torquoise },
+              ]}
+            >
+              Hello, {user?.lastname} {user?.firstname}
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* <ExpoStatusBar style="auto" /> */}
@@ -121,5 +136,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: height / 7,
     marginLeft: 20,
+  },
+  userText: {
+    color: color.white,
+    fontSize: fontSizes.lg,
   },
 });

@@ -93,7 +93,7 @@ const registerUser = async (req, res) => {
 
 // LOGIN USER********************************
 const userLogin = asyncWrapper(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email.toLowerCase() });
   const secret = process.env.JWT_TOKEN;
 
   if (!user) {
@@ -111,7 +111,7 @@ const userLogin = asyncWrapper(async (req, res, next) => {
     );
     res
       .status(StatusCodes.OK)
-      .json({ msg: "User Authenticated!", user: user.email, token: token });
+      .json({ msg: "User Authenticated!", user: user, token: token });
   } else {
     return next(createCustomError("Unauthorized Access!!!", 401));
   }

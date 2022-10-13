@@ -7,19 +7,27 @@ import {
   Text,
   Dimensions,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
+import { logOutUser, selectUser } from "../slices/appSlices";
 
 const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
   const [active, setActive] = React.useState("");
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setActive(route.name);
   }, [active]);
 
+  const signOut = () => {
+    dispatch(logOutUser());
+  };
+  console.log(user);
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -137,25 +145,22 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
           Cart
         </Text>
       </TouchableOpacity>
-
-      {/* <TouchableOpacity
-        onPress={() => {
-          setActive("signout");
-        }}
-        style={styles.icons}
-      >
-        <Ionicons name="md-log-out-outline" size={18} color={color.white} />
-        <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Login-Screen");
-        }}
-        style={styles.icons}
-      >
-        <AntDesign name="login" size={18} color={color.white} />
-        <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
-      </TouchableOpacity>
+      {user?.firstname ? (
+        <TouchableOpacity onPress={signOut} style={styles.icons}>
+          <Ionicons name="md-log-out-outline" size={18} color={color.white} />
+          <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Login-Screen");
+          }}
+          style={styles.icons}
+        >
+          <AntDesign name="login" size={18} color={color.white} />
+          <Text style={{ color: color.white, fontSize: 10 }}>SignIn</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
