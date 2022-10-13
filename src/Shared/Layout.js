@@ -6,7 +6,14 @@ import { color } from "../constants/colors";
 import { variables } from "../constants/variables";
 const { height } = Dimensions.get("window");
 
-const Layout = ({ children, setShowBar, showBar, navigation, route }) => {
+const Layout = ({
+  children,
+  setShowBar,
+  showBar,
+  isShop,
+  navigation,
+  route,
+}) => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [showSearch, setShowSearch] = React.useState(false);
   return (
@@ -18,6 +25,7 @@ const Layout = ({ children, setShowBar, showBar, navigation, route }) => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         showSearch={showSearch}
+        isShop={isShop}
       />
       <View style={styles.children}>{children}</View>
       <Footer

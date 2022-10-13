@@ -48,9 +48,9 @@ export default function HomeScreen({ navigation }) {
 
     setAllWigsCloudinaryImg(images);
   };
+
   React.useEffect(() => {
     fetchCloudinaryImages();
-    // fetchProducts();
   }, []);
 
   const [interLoaded] = useInter({
@@ -82,6 +82,7 @@ export default function HomeScreen({ navigation }) {
             clr={color.gold}
             bgclr={color.black}
             width={width / 3}
+            rounded={50}
           />
         </TouchableOpacity>
         <View style={styles.motto}>

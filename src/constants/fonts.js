@@ -5,13 +5,10 @@ export const fonts = {
   monospace: "Oswald_400Regular",
   customAri: "Arizonia_400Regular",
   customOrb: "orbitron",
+  regular: 400,
+  medium: 500,
+  bold: 900,
 };
-
-// export const fontW = {
-//   regular: 400,
-//   medium: 500,
-//   bold: 900,
-// };
 
 export const fontSizes = {
   xxs: 8,

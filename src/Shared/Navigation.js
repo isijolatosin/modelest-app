@@ -13,12 +13,13 @@ const Navigation = ({
   navigation,
   searchQuery,
   setSearchQuery,
+  isShop,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imagewrapper}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Home-Screen")}
+          onPress={() => navigation.goBack()}
           style={[styles.backWrapper]}
         >
           <MaterialIcons
@@ -29,7 +30,7 @@ const Navigation = ({
           />
         </TouchableOpacity>
       </View>
-      {showSearch && (
+      {showSearch && isShop && (
         <View>
           <Searchbar
             placeholder="Search"
@@ -42,16 +43,18 @@ const Navigation = ({
           />
         </View>
       )}
-      <TouchableOpacity
-        onPress={() => setShowBar(!showBar)}
-        style={styles.menu}
-      >
-        {showBar ? (
-          <EvilIcons name="close" size={25} color={color.black} />
-        ) : (
-          <Feather name="menu" size={25} color={color.darkgrey} />
-        )}
-      </TouchableOpacity>
+      {isShop && (
+        <TouchableOpacity
+          onPress={() => setShowBar(!showBar)}
+          style={styles.menu}
+        >
+          {showBar ? (
+            <EvilIcons name="close" size={25} color={color.black} />
+          ) : (
+            <Feather name="menu" size={25} color={color.darkgrey} />
+          )}
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     maxWidth: width,
     height: 50,
     padding: 8,
-    marginBottom: -17,
+    marginBottom: -10,
   },
   back: {
     paddingHorizontal: 4,

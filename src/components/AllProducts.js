@@ -1,60 +1,86 @@
-import { StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Avatar, Card, Title, Paragraph } from "react-native-paper";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+  Text,
+} from "react-native";
+import { FlatGrid } from "react-native-super-grid";
+import { Card, Title } from "react-native-paper";
 import React from "react";
 import { color } from "../constants/colors";
+import truncate from "../utilities/truncate";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="person" />;
+// const LeftContent = (props) => <Avatar.Icon {...props} icon="person" />;
 
-export default function AllProducts({ products }) {
+export default function AllProducts({ products, navigation }) {
+  // select product func
+  function selectProduct(product) {
+    navigation.navigate("Single-Screen", { singleProduct: product });
+  }
   return (
     <ScrollView style={styles.container} horizontal={true}>
-      <Card style={styles.card}>
-        <Card.Cover
-          style={{ height: 300 }}
-          source={{ uri: "https://picsum.photos/700" }}
-        />
-        <Card.Content>
-          <Title>Card title</Title>
-          <Paragraph>Card Price</Paragraph>
-          <Paragraph>Card Long description</Paragraph>
-        </Card.Content>
-      </Card>
-      <Card style={styles.card}>
-        <Card.Cover
-          style={{ height: 300 }}
-          source={{ uri: "https://picsum.photos/700" }}
-        />
-        <Card.Content>
-          <Title>Card title</Title>
-          <Paragraph>Card Price</Paragraph>
-          <Paragraph>Card Long description</Paragraph>
-        </Card.Content>
-      </Card>
-      <Card style={styles.card}>
-        <Card.Cover
-          style={{ height: 300 }}
-          source={{ uri: "https://picsum.photos/700" }}
-        />
-        <Card.Content>
-          <Title>Card title</Title>
-          <Paragraph>Card Price</Paragraph>
-          <Paragraph>Card Long description</Paragraph>
-        </Card.Content>
-      </Card>
+      <FlatGrid
+        itemDimension={130}
+        data={products}
+        style={styles.gridView}
+        renderItem={({ item }) => (
+          <Card key={item._id} style={styles.itemContainer}>
+            <TouchableOpacity onPress={() => selectProduct(item)}>
+              <Card.Cover style={styles.image} source={{ uri: item?.image }} />
+            </TouchableOpacity>
+            <Card.Content style={styles.info}>
+              <Title style={styles.itemName}>{item?.name}</Title>
+              <Text style={styles.itemDesc}>
+                {truncate(item?.description, 7)}
+              </Text>
+              <Text style={styles.itemPrice}>USD ${item?.price}</Text>
+            </Card.Content>
+          </Card>
+        )}
+      />
     </ScrollView>
   );
 }
 
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 40,
-    backgroundColor: color.chocolate,
-    padding: 20,
+  gridView: {
+    flex: 1,
   },
-  card: {
-    width: width - 50,
-    marginRight: 40,
-    //  height: 400,
+  itemContainer: {
+    justifyContent: "flex-end",
+    borderRadius: 5,
+    paddingVertical: 10,
+    height: 300,
+    overflow: "hidden",
+  },
+  image: {
+    height: 300,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
+  },
+  info: {
+    position: "absolute",
+    backgroundColor: color.white,
+    bottom: -11,
+    right: 0,
+    left: 0,
+    height: 70,
+  },
+  itemName: {
+    fontSize: 14,
+    color: color.chocolate,
+    fontWeight: "900",
+    marginBottom: -6,
+  },
+  itemPrice: {
+    fontWeight: "500",
+    fontSize: 14,
+    color: color.chocolate,
+  },
+  itemDesc: {
+    fontSize: 12,
+    color: color.darkgrey,
   },
 });

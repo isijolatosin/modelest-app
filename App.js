@@ -2,8 +2,9 @@ import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/Pages/HomeScreen";
-import ShopScreen from "./src/Pages/ShopScreen";
+import HomeScreen from "./src/Screens/HomeScreen";
+import ShopScreen from "./src/Screens/ShopScreen";
+import SingleScreen from "./src/Screens/SingleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ const App = () => {
           //  options={{ title: "Welcome" }}
         />
         <Stack.Screen name="Shop-Screen" component={ShopScreen} />
+        <Stack.Screen name="Single-Screen" component={SingleScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

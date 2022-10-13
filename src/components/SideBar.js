@@ -95,10 +95,10 @@ export default SideBar;
 
 const styles = StyleSheet.create({
   menu: {
-    backgroundColor: color.offWhite,
+    backgroundColor: color.whiteTrans,
     color: color.black,
     position: "absolute",
-    top: 20,
+    top: 0,
     left: 0,
     zIndex: 10,
     width: 250,
