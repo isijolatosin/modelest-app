@@ -13,8 +13,9 @@ const Layout = ({
   isShop,
   navigation,
   route,
+  setSearchQuery,
+  searchQuery,
 }) => {
-  const [searchQuery, setSearchQuery] = React.useState("");
   const [showSearch, setShowSearch] = React.useState(false);
   return (
     <View style={styles.container}>

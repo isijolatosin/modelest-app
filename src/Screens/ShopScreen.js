@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { StyleSheet, StatusBar, SafeAreaView, View } from "react-native";
 import React from "react";
 import { color } from "../constants/colors";
@@ -9,6 +10,7 @@ import AllProducts from "../components/AllProducts";
 const ShopScreen = ({ navigation, route }) => {
   const [showBar, setShowBar] = React.useState(false);
   const [allProduct, setAllProduct] = React.useState([]);
+  const [searchQuery, setSearchQuery] = React.useState("");
   const isShop = true;
 
   async function fetchProducts() {
@@ -16,9 +18,22 @@ const ShopScreen = ({ navigation, route }) => {
       const {
         data: { productSelect },
       } = await axios.get(
-        `${process.env.REACT_APP_CRACK_URL}/api/v1/products/filter`
+        `${process.env.REACT_APP_NGROK_URL}/api/v1/products/filter`
       );
-      setAllProduct(productSelect);
+
+      if (searchQuery !== "") {
+        if (searchQuery.toLowerCase() === "all") {
+          setAllProduct(productSelect);
+        } else {
+          setAllProduct(
+            productSelect.filter((product) =>
+              product.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+          );
+        }
+      } else {
+        setAllProduct(productSelect);
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -26,7 +41,7 @@ const ShopScreen = ({ navigation, route }) => {
 
   React.useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [searchQuery]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,11 +51,19 @@ const ShopScreen = ({ navigation, route }) => {
         setShowBar={setShowBar}
         showBar={showBar}
         isShop={isShop}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
       >
         <View>
           <AllProducts products={allProduct} navigation={navigation} />
         </View>
-        {showBar && <SideBar sytle={styles.shadowProp} />}
+        {showBar && (
+          <SideBar
+            sytle={styles.shadowProp}
+            navigation={navigation}
+            setShowBar={setShowBar}
+          />
+        )}
       </Layout>
     </SafeAreaView>
   );

@@ -27,13 +27,13 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
   const signOut = () => {
     dispatch(logOutUser());
   };
-  console.log(user);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("Home-Screen");
-          setActive("shop");
+          setActive("home");
         }}
         style={styles.icons}
       >
@@ -41,7 +41,7 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
           name="home"
           size={18}
           color={
-            active === "shop" && active !== "Shop-Screen"
+            active === "home" && active !== "Shop-Screen"
               ? color.gold
               : color.white
           }
@@ -49,12 +49,12 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
         <Text
           style={
             (styles.iconText,
-            active === "shop" && active !== "Shop-Screen"
+            active === "home" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
         >
-          Shop
+          Home
         </Text>
       </TouchableOpacity>
 

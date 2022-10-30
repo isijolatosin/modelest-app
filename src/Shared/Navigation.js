@@ -11,10 +11,15 @@ const Navigation = ({
   showBar,
   showSearch,
   navigation,
-  searchQuery,
   setSearchQuery,
   isShop,
 }) => {
+  const [query, setQuery] = React.useState("");
+
+  function sendQuery() {
+    setSearchQuery(query);
+    setQuery("");
+  }
   return (
     <View style={styles.container}>
       <View style={styles.imagewrapper}>
@@ -34,10 +39,10 @@ const Navigation = ({
         <View>
           <Searchbar
             placeholder="Search"
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-            onIconPress={() => {}}
-            iconColor={color.black}
+            onChangeText={setQuery}
+            value={query}
+            onIconPress={sendQuery}
+            iconColor={color.gold}
             loading={true}
             style={styles.searchBar}
           />

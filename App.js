@@ -12,6 +12,7 @@ import ProfileScreen from "./src/Screens/ProfileScreen";
 import CartScreen from "./src/Screens/CartScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
 import RegisterScreen from "./src/Screens/RegisterScreen";
+import VirginWigsScreen from "./src/Screens/VirginWigsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,10 @@ const App = () => {
               //  options={{ title: "Welcome" }}
             />
             <Stack.Screen name="Shop-Screen" component={ShopScreen} />
+            <Stack.Screen
+              name="Virgin-wigs-Screen"
+              component={VirginWigsScreen}
+            />
             <Stack.Screen name="Single-Screen" component={SingleScreen} />
             <Stack.Screen name="Profile-Screen" component={ProfileScreen} />
             <Stack.Screen name="Cart-Screen" component={CartScreen} />

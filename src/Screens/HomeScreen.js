@@ -19,13 +19,13 @@ import {
 import "expo/AppEntry";
 import { useSelector } from "react-redux";
 import { selectUser } from "../slices/appSlices";
-import { REACT_APP_LOGO } from "@env";
 import { color } from "../constants/colors";
-import { REACT_APP_CLOUDINARY_WIGS, REACT_APP_CLOUDINARY_BASEURL } from "@env";
+import { REACT_APP_CLOUDINARY_WIGS } from "@env";
 import PictureSlide from "../components/PictureSlide";
 import { fonts, fontSizes } from "../constants/fonts";
 import Button from "../Shared/Button";
 import { Avatar } from "react-native-paper";
+import { variables } from "../constants/variables";
 
 const { height, width } = Dimensions.get("window");
 
@@ -45,7 +45,7 @@ export default function HomeScreen({ navigation }) {
       let format = img?.format;
 
       images.push(
-        `${REACT_APP_CLOUDINARY_BASEURL}${version}/${public_id}.${format}`
+        `${variables?.REACT_APP_CLOUDINARY_BASEURL}${version}/${public_id}.${format}`
       );
     });
 
@@ -73,7 +73,7 @@ export default function HomeScreen({ navigation }) {
         style={styles.image}
         size={65}
         source={{
-          uri: REACT_APP_LOGO,
+          uri: variables?.REACT_APP_LOGO,
         }}
       />
       <View style={styles.btnWrapper}>

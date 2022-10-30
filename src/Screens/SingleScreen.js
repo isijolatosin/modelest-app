@@ -30,7 +30,7 @@ const SingleScreen = ({ navigation, route }) => {
       const {
         data: { product },
       } = await axios.get(
-        `${process.env.REACT_APP_CRACK_URL}/api/v1/products/${singleProductId}`
+        `${process.env.REACT_APP_NGROK_URL}/api/v1/products/${singleProductId}`
       );
       setProduct(product);
     } catch (error) {

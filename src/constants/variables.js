@@ -26,6 +26,7 @@ export const variables = {
     {
       id: "1",
       name: "wigs",
+      route: "/Virgin-wigs-Screen",
     },
     {
       id: "2",
@@ -86,4 +87,8 @@ export const variables = {
       name: "about us / contact us",
     },
   ],
+  REACT_APP_CLOUDINARY_BASEURL:
+    "https://res.cloudinary.com/dhdccvkyt/image/upload/v",
+  REACT_APP_LOGO:
+    "https://res.cloudinary.com/dhdccvkyt/image/upload/v1662354896/logo2_bplizf.png",
 };

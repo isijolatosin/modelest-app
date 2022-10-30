@@ -19,7 +19,7 @@ const getAllProducts = asyncWrapper(async (req, res) => {
 // GET ALL PRODUCT WITH FILTER**************
 const getAllProductSelect = asyncWrapper(async (req, res) => {
   const productSelect = await Product.find({}).select(
-    "name image price description brand"
+    "name images price description brand"
   );
   res.status(StatusCodes.OK).json({ productSelect });
 });

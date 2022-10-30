@@ -10,7 +10,7 @@ import { variables } from "../constants/variables";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
 
-const SideBar = () => {
+const SideBar = ({ navigation, setShowBar }) => {
   const [menuSelect, setMenuSelect] = React.useState("");
 
   const HandleMenu = (e) => {
@@ -49,7 +49,16 @@ const SideBar = () => {
             <View>
               {menuSelect === "virgin" &&
                 variables.subLinks2.map((i) => (
-                  <TouchableOpacity style={styles.textSubCont} key={i.id}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Virgin-wigs-Screen", {
+                        parameter: "virgin",
+                      });
+                      setShowBar(false);
+                    }}
+                    style={styles.textSubCont}
+                    key={i.id}
+                  >
                     <Text style={styles.subText}>{i.name}</Text>
                   </TouchableOpacity>
                 ))}

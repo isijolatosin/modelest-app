@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+// import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
@@ -20,7 +20,7 @@ import Heading from "../Shared/Heading";
 
 const { width } = Dimensions.get("window");
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
   const inputAccessoryViewID = "uniqueID";
   const [text, setText] = React.useState("");
   const [focus, setFocus] = React.useState(false);
@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {

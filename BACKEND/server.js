@@ -15,7 +15,7 @@ const orderRouter = require("./routes/orders");
 const authJwt = require("./helpers/jwt");
 const errorHandler = require("./helpers/error-handler");
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const api = process.env.BASE_ROUTE;
 
 cloudinary.config({

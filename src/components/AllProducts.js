@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  Text,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, ScrollView, Text } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Card, Title } from "react-native-paper";
 import React from "react";
@@ -27,7 +21,10 @@ export default function AllProducts({ products, navigation }) {
         renderItem={({ item }) => (
           <Card key={item._id} style={styles.itemContainer}>
             <TouchableOpacity onPress={() => selectProduct(item)}>
-              <Card.Cover style={styles.image} source={{ uri: item?.image }} />
+              <Card.Cover
+                style={styles.image}
+                source={{ uri: item?.images[0] }}
+              />
             </TouchableOpacity>
             <Card.Content style={styles.info}>
               <Title style={styles.itemName}>{item?.name}</Title>
@@ -43,7 +40,7 @@ export default function AllProducts({ products, navigation }) {
   );
 }
 
-const { width } = Dimensions.get("window");
+// const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   gridView: {
     flex: 1,
