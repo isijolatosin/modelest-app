@@ -57,7 +57,9 @@ const deleteUser = asyncWrapper(async (req, res, next) => {
   if (!user) {
     return next(createCustomError(`No user with id : ${userID}`, 404));
   }
-  res.status(StatusCodes.OK).json({ success: true, message: "User Deleted!" });
+  res
+    .status(StatusCodes.OK)
+    .json({ success: "SUCCESS", message: "User Deleted!" });
 });
 
 // REGISTER USER**************************
@@ -79,15 +81,19 @@ const registerUser = async (req, res) => {
       isAdmin: req.body.isAdmin,
       zip: req.body.zip,
       street: req.body.street,
+      appartment: req.body.appartment,
       city: req.body.city,
+      state: req.body.state,
       country: req.body.country,
     };
 
     await User.create(userObj);
 
-    res
-      .status(StatusCodes.CREATED)
-      .json({ success: true, message: "User Registered Successfully!" });
+    res.status(StatusCodes.CREATED).json({
+      user: userObj,
+      success: "SUCCESS",
+      msg: "User Registered Successfully!",
+    });
   }
 };
 

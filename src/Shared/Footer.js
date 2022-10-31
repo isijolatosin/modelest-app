@@ -7,26 +7,20 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { CredentialsContext } from "../components/CredentialsContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
-import { logOutUser, selectUser } from "../slices/appSlices";
 
 const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
   const [active, setActive] = React.useState("");
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const { storedCredentials } = React.useContext(CredentialsContext);
 
   React.useEffect(() => {
     setActive(route.name);
   }, [active]);
-
-  const signOut = () => {
-    dispatch(logOutUser());
-  };
 
   return (
     <View style={styles.container}>
@@ -88,7 +82,7 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
       <TouchableOpacity
         onPress={() => {
           setActive("me");
-          navigation.navigate("Profile-Screen");
+          storedCredentials?.email && navigation.navigate("Profile-Screen");
         }}
         style={styles.icons}
       >
@@ -145,22 +139,6 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
           Cart
         </Text>
       </TouchableOpacity>
-      {user?.firstname ? (
-        <TouchableOpacity onPress={signOut} style={styles.icons}>
-          <Ionicons name="md-log-out-outline" size={18} color={color.white} />
-          <Text style={{ color: color.white, fontSize: 10 }}>SignOut</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Login-Screen");
-          }}
-          style={styles.icons}
-        >
-          <AntDesign name="login" size={18} color={color.white} />
-          <Text style={{ color: color.white, fontSize: 10 }}>SignIn</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
@@ -175,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: width,
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
     paddingVertical: 5,
     paddingBottom: 70,
     // paddingTop: Platform.OS === variables.isAndroid ? 20 : 10,

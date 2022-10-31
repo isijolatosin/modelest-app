@@ -15,4 +15,5 @@ export const color = {
   torquoise: "#00b4d8",
   coffee: "#2b2d42",
   purple: "#4361ee",
+  green: "#00ad30",
 };

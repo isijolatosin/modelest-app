@@ -1,52 +1,41 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { Provider } from "react-redux";
-import { store, persistor } from "./store";
-import { PersistGate } from "redux-persist/integration/react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/Screens/HomeScreen";
-import ShopScreen from "./src/Screens/ShopScreen";
-import SingleScreen from "./src/Screens/SingleScreen";
-import ProfileScreen from "./src/Screens/ProfileScreen";
-import CartScreen from "./src/Screens/CartScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
-import RegisterScreen from "./src/Screens/RegisterScreen";
-import VirginWigsScreen from "./src/Screens/VirginWigsScreen";
-
-const Stack = createNativeStackNavigator();
+import AppLoading from "expo-app-loading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./src/components/CredentialsContext";
+import RootStack from "./src/navigators/RootStack";
 
 const App = () => {
+  const [appReady, setAppReady] = React.useState(false);
+  const [storedCredentials, setStoredCredentials] = React.useState("");
+
+  const checkLoginCredentials = () => {
+    AsyncStorage.getItem("modelestCredentials")
+      .then((result) => {
+        if (result !== null) {
+          setStoredCredentials(JSON.parse(result));
+        } else {
+          setStoredCredentials(null);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  if (!appReady) {
+    return (
+      <AppLoading
+        startAsync={checkLoginCredentials}
+        onFinish={() => setAppReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator
-            keyboardHandlingEnabled={true}
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen
-              //  options={{ headerShown: false }}
-              name="Home-Screen"
-              component={HomeScreen}
-              //  options={{ title: "Welcome" }}
-            />
-            <Stack.Screen name="Shop-Screen" component={ShopScreen} />
-            <Stack.Screen
-              name="Virgin-wigs-Screen"
-              component={VirginWigsScreen}
-            />
-            <Stack.Screen name="Single-Screen" component={SingleScreen} />
-            <Stack.Screen name="Profile-Screen" component={ProfileScreen} />
-            <Stack.Screen name="Cart-Screen" component={CartScreen} />
-            <Stack.Screen name="Login-Screen" component={LoginScreen} />
-            <Stack.Screen name="Register-Screen" component={RegisterScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <CredentialsContext.Provider
+      value={{ storedCredentials, setStoredCredentials }}
+    >
+      <RootStack />
+    </CredentialsContext.Provider>
   );
 };
 

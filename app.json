@@ -1,31 +1,38 @@
 {
-	"expo": {
-		"name": "modelest-app",
-		"slug": "modelest-app",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"icon": "./assets/logo2.png",
-		"userInterfaceStyle": "light",
-		"splash": {
-			"image": "./assets/logo2.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#000"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/logo2.png",
-				"backgroundColor": "#000"
-			}
-		},
-		"web": {
-			"favicon": "./assets/logo2.png"
-		}
-	}
+  "expo": {
+    "name": "modelest-app",
+    "slug": "modelest-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo2.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo2.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.modelest.app",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.572989125998-q0shhooc8f1radf8o2ghe9gd5r4cj2es"
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo2.png",
+        "backgroundColor": "#000"
+      },
+      "package": "com.modelest.app"
+    },
+    "web": {
+      "favicon": "./assets/logo2.png"
+    }
+  }
 }
