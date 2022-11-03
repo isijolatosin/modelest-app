@@ -2405,6 +2405,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/stripe-react-native@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-react-native/-/stripe-react-native-0.19.0.tgz#a838440739082c2cc7a3d516b0e60de0013b4f32"
+  integrity sha512-J4UWmg8oUIhMvLsU94pWqsXpLyxxh3wT4AG/VKdzzb3Wn80a2b6zeOxtY3/7uoNV4AGurhZXvo7Gv01/y7MChQ==
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.npmjs.org/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz"
@@ -10618,6 +10623,13 @@ react-native-swiper-flatlist@^3.0.17:
   version "3.0.17"
   resolved "https://registry.npmjs.org/react-native-swiper-flatlist/-/react-native-swiper-flatlist-3.0.17.tgz"
   integrity sha512-4sWHzMHhXohiePBtJcVwt/fYVLpKFab7H1bvUH8TI3iMFYTOlMaW2PerlTDqGSO1eLRc4BX1z3X6e1NYPoakMA==
+
+react-native-switch@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-switch/-/react-native-switch-1.5.1.tgz#da032f66547053aa004c7a159422dbca8fadd944"
+  integrity sha512-nfuPrrPKzeZL1mQH0u1rlEGv9W1+okU/xOcNNaDNz/LhSdzWOZ04ogJ4iEj7Sth3hkBxv4XwFQZTgCc07we+cg==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-vector-icons@^9.2.0:
   version "9.2.0"

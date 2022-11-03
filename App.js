@@ -1,9 +1,13 @@
 import "react-native-gesture-handler";
 import React from "react";
 import AppLoading from "expo-app-loading";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./src/components/CredentialsContext";
 import RootStack from "./src/navigators/RootStack";
+import { store, persistor } from "./store";
+import { Text } from "react-native";
 
 const App = () => {
   const [appReady, setAppReady] = React.useState(false);
@@ -31,11 +35,15 @@ const App = () => {
     );
   }
   return (
-    <CredentialsContext.Provider
-      value={{ storedCredentials, setStoredCredentials }}
-    >
-      <RootStack />
-    </CredentialsContext.Provider>
+    <Provider store={store}>
+      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        <CredentialsContext.Provider
+          value={{ storedCredentials, setStoredCredentials }}
+        >
+          <RootStack />
+        </CredentialsContext.Provider>
+      </PersistGate>
+    </Provider>
   );
 };
 

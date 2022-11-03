@@ -1,33 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
   key: "root",
-  storage,
-  whitelist: ["cartItems", "itemCount", "total"],
+  storage: AsyncStorage,
+  whitelist: ["cartItems", "itemCount", "total", "orderStatus", "orderPayload"],
 };
 
 const initialState = {
   cartItems: [],
   itemCount: 0,
   total: 0,
-  bookingObject: "",
-  user: {},
+  orderStatus: "",
+  orderPayload: "",
 };
 
 export const appSlices = createSlice({
   name: "app",
   initialState,
   reducers: {
-    // Set user
-    logInUser: (state, action) => {
-      state.user = action.payload;
+    // set order status
+    setOrderStatus: (state, action) => {
+      state.orderStatus = action.payload;
     },
-    logOutUser: (state) => {
-      state.user = {};
+    // set order payload
+    setOrderPayload: (state, action) => {
+      state.orderPayload = action.payload;
     },
-
+    // clear order payload
+    clearOrderPayload: (state) => {
+      state.orderPayload = {};
+    },
     // Add item
     addToCartItem: (state, action) => {
       // check if item is in the cart
@@ -53,14 +57,13 @@ export const appSlices = createSlice({
       if (
         state.cartItems.find(
           (item) =>
-            item.hairLength === action.payload.hairLength &&
+            // item.hairLength === action.payload.hairLength &&
             item.id === action.payload.id
         )
       ) {
         const increaseIndex = state.cartItems.findIndex(
-          (item) =>
-            item.id === action.payload.id &&
-            item.hairLength === action.payload.hairLength
+          (item) => item.id === action.payload.id
+          // && item.hairLength === action.payload.hairLength
         );
 
         state.cartItems[increaseIndex].quantity++;
@@ -93,9 +96,8 @@ export const appSlices = createSlice({
     // Decrease Item
     decreaseCartItem: (state, action) => {
       const decreaseIndex = state.cartItems.findIndex(
-        (item) =>
-          item.id === action.payload.id &&
-          item.hairLength === action.payload.hairLength
+        (item) => item.id === action.payload.id
+        // && item.hairLength === action.payload.hairLength
       );
       const product = state.cartItems[decreaseIndex];
       if (product.quantity >= 1) {
@@ -114,9 +116,8 @@ export const appSlices = createSlice({
     // Remove Item
     removeCartItem: (state, action) => {
       const removeIndex = state.cartItems.findIndex(
-        (item) =>
-          item.id === action.payload.id &&
-          item.hairLength === action.payload.hairLength
+        (item) => item.id === action.payload.id
+        // && item.hairLength === action.payload.hairLength
       );
 
       const a = state.cartItems.slice(0, removeIndex);
@@ -142,9 +143,6 @@ export const appSlices = createSlice({
       state.itemCount = 0;
       state.total = 0;
     },
-    setBookingObject: (state, action) => {
-      state.bookingObject = action.payload;
-    },
   },
 });
 
@@ -156,14 +154,17 @@ export const {
   decreaseCartItem,
   removeCartItem,
   clearCartItem,
-  setBookingObject,
+  setOrderStatus,
+  setOrderPayload,
+  clearOrderPayload,
 } = appSlices.actions;
 
 // Selectors
 export const selectCartItems = (state) => state.app.cartItems;
 export const selectItemCount = (state) => state.app.itemCount;
 export const selectTotal = (state) => state.app.total;
-export const selectBookingObject = (state) => state.app.bookingObject;
+export const selectOrderStatus = (state) => state.app.orderStatus;
+export const selectOrderPayload = (state) => state.app.orderPayload;
 export const selectUser = (state) => state.app.user;
 
 const rootReducer = appSlices.reducer;

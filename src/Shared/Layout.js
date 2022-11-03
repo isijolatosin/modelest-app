@@ -16,26 +16,20 @@ const Layout = ({
   setSearchQuery,
   searchQuery,
 }) => {
-  const [showSearch, setShowSearch] = React.useState(false);
   return (
     <View style={styles.container}>
-      <Navigation
-        navigation={navigation}
-        showBar={showBar}
-        setShowBar={setShowBar}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        showSearch={showSearch}
-        isShop={isShop}
-      />
+      <View style={{ borderBottomColor: color.grey, borderBottomWidth: 0.5 }}>
+        <Navigation
+          navigation={navigation}
+          showBar={showBar}
+          setShowBar={setShowBar}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          isShop={isShop}
+        />
+      </View>
       <View style={styles.children}>{children}</View>
-      <Footer
-        style={styles.footer}
-        setShowSearch={setShowSearch}
-        showSearch={showSearch}
-        route={route}
-        navigation={navigation}
-      />
+      <Footer style={styles.footer} route={route} navigation={navigation} />
     </View>
   );
 };
@@ -45,7 +39,7 @@ export default Layout;
 const styles = StyleSheet.create({
   container: { fbackgroundColor: color.offWhite, flex: 1 },
   children: {
-    height: Platform.OS === variables.isAndroid ? height - 100 : height - 150,
+    height: Platform.OS === variables.isAndroid ? height - 150 : height - 150,
   },
   footer: {
     position: "absolute",

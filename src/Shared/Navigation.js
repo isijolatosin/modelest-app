@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import { color } from "../constants/colors";
 import { Searchbar } from "react-native-paper";
@@ -10,7 +9,6 @@ const Navigation = ({
   setShowBar,
   showBar,
   showSearch,
-  navigation,
   setSearchQuery,
   isShop,
 }) => {
@@ -22,20 +20,7 @@ const Navigation = ({
   }
   return (
     <View style={styles.container}>
-      <View style={styles.imagewrapper}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={[styles.backWrapper]}
-        >
-          <MaterialIcons
-            name="keyboard-backspace"
-            size={30}
-            color={color.black}
-            style={styles.back}
-          />
-        </TouchableOpacity>
-      </View>
-      {showSearch && isShop && (
+      <View style={{ flex: 1 }}>
         <View>
           <Searchbar
             placeholder="Search"
@@ -47,19 +32,17 @@ const Navigation = ({
             style={styles.searchBar}
           />
         </View>
-      )}
-      {isShop && (
-        <TouchableOpacity
-          onPress={() => setShowBar(!showBar)}
-          style={styles.menu}
-        >
-          {showBar ? (
-            <EvilIcons name="close" size={25} color={color.black} />
-          ) : (
-            <Feather name="menu" size={25} color={color.darkgrey} />
-          )}
-        </TouchableOpacity>
-      )}
+      </View>
+      <TouchableOpacity
+        onPress={() => setShowBar(!showBar)}
+        style={styles.menu}
+      >
+        {showBar ? (
+          <EvilIcons name="close" size={25} color={color.black} />
+        ) : (
+          <Feather name="menu" size={25} color={color.darkgrey} />
+        )}
+      </TouchableOpacity>
     </View>
   );
 };
@@ -75,19 +58,19 @@ const styles = StyleSheet.create({
     maxWidth: width,
     height: 50,
     padding: 8,
+    paddingBottom: 20,
     marginBottom: -10,
   },
   back: {
     paddingHorizontal: 4,
   },
   menu: {
-    paddingHorizontal: 10,
+    paddingRight: 10,
+    paddingLeft: 20,
   },
   searchBar: {
-    width: width - 130,
+    // width: width - 130,
     backgroundColor: "transparent",
-    borderBottomWidth: 0.5,
-    borderBottomColor: color.lightgrey,
     elevation: 0,
   },
 });

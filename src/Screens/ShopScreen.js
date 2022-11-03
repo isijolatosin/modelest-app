@@ -6,6 +6,7 @@ import Layout from "../Shared/Layout";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 import AllProducts from "../components/AllProducts";
+import { variables } from "../constants/variables";
 
 const ShopScreen = ({ navigation, route }) => {
   const [showBar, setShowBar] = React.useState(false);
@@ -18,7 +19,7 @@ const ShopScreen = ({ navigation, route }) => {
       const {
         data: { productSelect },
       } = await axios.get(
-        `${process.env.REACT_APP_NGROK_URL}/api/v1/products/filter`
+        `${variables.REACT_APP_NGROK_URL}/api/v1/products/filter`
       );
 
       if (searchQuery !== "") {
@@ -41,7 +42,7 @@ const ShopScreen = ({ navigation, route }) => {
 
   React.useEffect(() => {
     fetchProducts();
-  }, [searchQuery]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.white,
     // StatusBar.currentHeight only works for android
-    paddingTop: StatusBar.currentHeight + 10,
+    // paddingTop: StatusBar.currentHeight + 10,
   },
   shadowProp: {
     shadowColor: "#171717",

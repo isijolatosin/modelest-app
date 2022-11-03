@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
   Dimensions,
+  Platform,
 } from "react-native";
 import React from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -17,20 +18,35 @@ import { fontSizes } from "../constants/fonts";
 import PaymentOptions from "../Shared/PaymentOptions";
 import Button from "../Shared/Button";
 import Heading from "../Shared/Heading";
-import { description } from "../utilities/description";
+import { descriptionFunc } from "../utilities/description";
+import { variables } from "../constants/variables";
+import { TextInput } from "react-native-gesture-handler";
+import MessageBox from "../Shared/MessageBox";
+import { useDispatch } from "react-redux";
+import { addToCartItem, selectCartItems } from "../slices/appSlices";
+import { isInCart } from "../utilities/isInCart";
+import { useSelector } from "react-redux";
 
 const SingleScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const singleProductId =
     route.params.singleProduct.id || route.params.singleProduct._id;
   const [singleProduct, setProduct] = React.useState([]);
+  const [length, setLength] = React.useState("");
   const { width } = Dimensions.get("window");
+  const [focus, setFocus] = React.useState(false);
+  const [noFieldError, setNoFieldError] = React.useState(false);
+  const [qty, setQuantity] = React.useState(1);
+  const [messageType, setMessageType] = React.useState();
+  const [message, setMessage] = React.useState("");
+  const cartItems = useSelector(selectCartItems);
 
   async function fetchProducts() {
     try {
       const {
         data: { product },
       } = await axios.get(
-        `${process.env.REACT_APP_NGROK_URL}/api/v1/products/${singleProductId}`
+        `${variables.REACT_APP_NGROK_URL}/api/v1/products/${singleProductId}`
       );
       setProduct(product);
     } catch (error) {
@@ -45,10 +61,42 @@ const SingleScreen = ({ navigation, route }) => {
   const availableSizes =
     singleProduct?.availablelength &&
     singleProduct?.availablelength.split(", ");
-
   const sizes = singleProduct?.length && singleProduct?.length.split(", ");
+  const des = descriptionFunc(singleProduct, availableSizes);
 
-  const des = description(singleProduct, availableSizes);
+  // order api
+  const handleMessage = (msg, type = "FAILED") => {
+    setMessage(msg);
+    setMessageType(type);
+  };
+
+  const addToCart = () => {
+    if (length && qty) {
+      const quantity = +qty;
+      const id = singleProduct?.id;
+      const description = singleProduct?.description;
+      const image = singleProduct?.images[0];
+      const name = singleProduct?.name;
+      const price = singleProduct?.price;
+
+      const productObj = { id, name, description, image, price, quantity };
+      dispatch(addToCartItem(productObj));
+      handleMessage("Product added to Cart Successfully", "SUCCESS");
+    } else {
+      setNoFieldError(true);
+      handleMessage("Please provide required fields", "FAILED");
+    }
+  };
+  const addMoreToCart = () => {
+    if (length && qty) {
+      const quantity = +qty;
+      const productObj = { quantity, singleProduct };
+      dispatch(addToCartItem(productObj));
+      handleMessage("Product added to Cart Successfully", "SUCCESS");
+    } else {
+      handleMessage("Please provide required fields", "FAILED");
+    }
+  };
 
   return (
     <ScrollView>
@@ -78,50 +126,102 @@ const SingleScreen = ({ navigation, route }) => {
             <Text style={styles.des}>{singleProduct?.description}</Text>
           </View>
           {availableSizes && (
-            <View style={styles.sizes}>
-              {availableSizes.map((size, idx) => {
-                return (
-                  <Text
-                    key={idx}
-                    style={[
-                      styles.sizeItem,
-                      sizes.includes(size)
-                        ? {
-                            borderColor: color.chocolate,
-                            color: color.chocolate,
-                          }
-                        : { borderColor: color.grey, color: color.grey },
-                    ]}
-                  >
-                    {size}
-                  </Text>
-                );
-              })}
+            <View style={styles.sizeWrapper}>
+              <View style={styles.sizes}>
+                {availableSizes.map((size, idx) => {
+                  return (
+                    <Text
+                      onPress={() => setLength(size)}
+                      key={idx}
+                      style={[
+                        styles.sizeItem,
+                        sizes.includes(size)
+                          ? {
+                              borderColor: color.chocolate,
+                              color: color.chocolate,
+                            }
+                          : { borderColor: color.grey, color: color.grey },
+                        length === size && {
+                          backgroundColor: color.chocolate,
+                          color: color.white,
+                        },
+                        noFieldError && { borderColor: color.red },
+                      ]}
+                    >
+                      {size}
+                    </Text>
+                  );
+                })}
+              </View>
+              <TextInput
+                value={qty}
+                setFocus={focus}
+                name="quantity"
+                placeholder="quantity"
+                onChangeText={setQuantity}
+                keyboardType="numeric"
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
+                style={{
+                  borderWidth: 0.5,
+                  borderColor: noFieldError ? color.red : color.chocolate,
+                  paddingVertical: 10,
+                  marginBottom: 15,
+                  borderRadius: 5,
+                  width: width / 2,
+                  fontSize: fontSizes.md,
+                  paddingHorizontal: 10,
+                }}
+              />
             </View>
           )}
           <View style={{ marginHorizontal: 15 }}>
             <View>
               <Text style={{ fontSize: fontSizes.lg, fontWeight: "900" }}>
-                ${singleProduct?.price}.00
+                ${singleProduct?.price * qty}.00
               </Text>
               <Text style={styles.text}>Color: {singleProduct?.color}</Text>
               <Text style={styles.text}>Texture: {singleProduct?.texture}</Text>
-              <Text style={styles.text}>Length: </Text>
+              {length && (
+                <Text style={styles.text}>Length: {length}" inches </Text>
+              )}
             </View>
             <View>
               <PaymentOptions price={singleProduct?.price} />
             </View>
           </View>
-          <View style={{ alignItems: "center", marginVertical: 10 }}>
-            <Button
-              title="Add to cart"
-              bgclr={color.chocolate}
-              clr={color.white}
-              width={width - 28}
-              rounded={3}
-              size={fontSizes.sm}
-            />
-          </View>
+
+          {isInCart(singleProduct, cartItems) ? (
+            <TouchableOpacity
+              onPress={addMoreToCart}
+              style={{ alignItems: "center", marginVertical: 10 }}
+            >
+              <Button
+                title="Add more"
+                bgclr={color.chocolate}
+                clr={color.white}
+                width={width - 28}
+                rounded={3}
+                size={fontSizes.sm}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={addToCart}
+              style={{ alignItems: "center", marginVertical: 10 }}
+            >
+              <Button
+                title="Add to cart"
+                bgclr={color.chocolate}
+                clr={color.white}
+                width={width - 28}
+                rounded={3}
+                size={fontSizes.sm}
+              />
+            </TouchableOpacity>
+          )}
+
+          <MessageBox children={message} type={messageType} />
           <View style={styles.details}>
             <Heading children="Product Details" />
             {des.map((discrption, idx) => (
@@ -176,7 +276,7 @@ const styles = StyleSheet.create({
   },
   backWrapper: {
     position: "absolute",
-    top: 60,
+    top: 40,
     left: 20,
     backgroundColor: color.black,
     padding: 10,
@@ -188,6 +288,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  sizeWrapper: {
+    paddingHorizontal: 15,
+  },
   sizes: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -196,11 +299,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderTopWidth: 0.5,
     borderColor: color.grey,
-    paddingHorizontal: 15,
   },
   sizeItem: {
     borderWidth: 0.5,
-    borderRadius: 30,
+    borderRadius: Platform.OS === variables.isIOS ? 0 : 30,
     paddingHorizontal: 15,
     paddingVertical: 5,
     marginRight: 10,

@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { color } from "../constants/colors";
+import { variables } from "../constants/variables";
 
 const PaymentOptions = ({ price }) => {
   return (
@@ -8,13 +9,13 @@ const PaymentOptions = ({ price }) => {
       <View style={styles.paymentLogo}>
         <Text>Pay with Credit / Debit Card </Text>
         <Image
-          source={{ uri: process.env.REACT_APP_STRIPE_LOGO }}
+          source={{ uri: variables?.REACT_APP_STRIPE_LOGO }}
           alt="stripe"
           style={styles.image}
         />
         <Text>/ </Text>
         <Image
-          source={{ uri: process.env.REACT_APP_PAYPAL_LOGO }}
+          source={{ uri: variables?.REACT_APP_PAYPAL_LOGO }}
           alt="paypal"
           style={styles.image}
         />
@@ -25,7 +26,7 @@ const PaymentOptions = ({ price }) => {
         </Text>
         <Image
           source={{
-            uri: process.env.REACT_APP_PAYPAL_LOGO,
+            uri: variables?.REACT_APP_PAYPAL_LOGO,
           }}
           alt="paypal"
           style={styles.image}

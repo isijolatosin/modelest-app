@@ -65,7 +65,8 @@ const createOrder = asyncWrapper(async (req, res, next) => {
     req.body.orderItems.map(async (orderItem) => {
       const result = await OrderItem.create({
         quantity: orderItem.quantity,
-        product: orderItem.product,
+        // The product will be the orderItem id
+        product: orderItem.id,
       });
 
       return result._id;
@@ -101,6 +102,10 @@ const createOrder = asyncWrapper(async (req, res, next) => {
     state: req.body.state,
     country: req.body.country,
   });
+  const returnOrder = {
+    orderItems: order.orderItems,
+    id: order._id,
+  };
 
   if (!order) {
     return res.status(400).send("The order cannot be created!");
@@ -108,6 +113,7 @@ const createOrder = asyncWrapper(async (req, res, next) => {
   res.status(StatusCodes.OK).json({
     success: true,
     message: "Order Successfully Created!",
+    order: returnOrder,
   });
 });
 

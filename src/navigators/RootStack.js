@@ -8,6 +8,7 @@ import ShopScreen from "../Screens/ShopScreen";
 import SingleScreen from "../Screens/SingleScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 import CartScreen from "../Screens/CartScreen";
+import PaymentScreen from "../Screens/PaymentScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import RegisterScreen from "../Screens/RegisterScreen";
 import VirginWigsScreen from "../Screens/VirginWigsScreen";
@@ -27,14 +28,19 @@ const RootStack = () => {
             initialRouteName="Home-Screen"
           >
             <Stack.Screen
-              //  options={{ headerShown: false }}
               name="Home-Screen"
-              component={HomeScreen}
               //  options={{ title: "Welcome" }}
+              //  options={{ headerShown: false }}
+              component={HomeScreen}
             />
-            <Stack.Screen name="Shop-Screen" component={ShopScreen} />
+            <Stack.Screen
+              options={{ headerShown: true, title: "Shop" }}
+              name="Shop-Screen"
+              component={ShopScreen}
+            />
             <Stack.Screen name="Single-Screen" component={SingleScreen} />
             <Stack.Screen name="Cart-Screen" component={CartScreen} />
+            <Stack.Screen name="Payment-Screen" component={PaymentScreen} />
             <Stack.Screen
               name="Virgin-wigs-Screen"
               component={VirginWigsScreen}

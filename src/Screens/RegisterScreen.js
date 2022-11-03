@@ -163,6 +163,8 @@ const RegisterScreen = ({ navigation }) => {
 
           <View style={{ position: "relative" }}>
             <TextInput
+              keyboardType="email-address"
+              enablesReturnKeyAutomatically={true}
               style={styles.input}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setEmail}
@@ -184,6 +186,8 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <View style={[styles.password, styles.inputInner]}>
               <TextInput
+                keyboardType="default"
+                enablesReturnKeyAutomatically={true}
                 inputAccessoryViewID={inputAccessoryViewID}
                 value={password}
                 placeholder={"Password…"}
@@ -216,6 +220,8 @@ const RegisterScreen = ({ navigation }) => {
             </View>
             <View style={[styles.password, styles.inputInner]}>
               <TextInput
+                keyboardType="email-address"
+                enablesReturnKeyAutomatically={true}
                 inputAccessoryViewID={inputAccessoryViewID}
                 value={confirmPassword}
                 placeholder={"Confirm password…"}
@@ -250,6 +256,8 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <View style={[styles.inputInner, { position: "relative" }]}>
               <TextInput
+                keyboardType="default"
+                enablesReturnKeyAutomatically={true}
                 inputAccessoryViewID={inputAccessoryViewID}
                 onChangeText={setFirstname}
                 value={firstname}
@@ -269,6 +277,8 @@ const RegisterScreen = ({ navigation }) => {
             </View>
             <View style={[styles.inputInner, { position: "relative" }]}>
               <TextInput
+                keyboardType="default"
+                enablesReturnKeyAutomatically={true}
                 inputAccessoryViewID={inputAccessoryViewID}
                 onChangeText={setLastname}
                 value={lastname}
@@ -290,6 +300,8 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <View style={[styles.inputInner, { position: "relative" }]}>
               <TextInput
+                keyboardType="default"
+                enablesReturnKeyAutomatically={true}
                 inputAccessoryViewID={inputAccessoryViewID}
                 onChangeText={setUsername}
                 value={username}
@@ -308,6 +320,8 @@ const RegisterScreen = ({ navigation }) => {
               </Text>
             </View>
             <TextInput
+              keyboardType="numeric"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setPhonenumber}
@@ -317,6 +331,8 @@ const RegisterScreen = ({ navigation }) => {
           </View>
           <View style={styles.inputGroup}>
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setZip}
@@ -324,6 +340,8 @@ const RegisterScreen = ({ navigation }) => {
               placeholder={"Zip Code…"}
             />
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setStreet}
@@ -333,6 +351,8 @@ const RegisterScreen = ({ navigation }) => {
           </View>
           <View style={styles.inputGroup}>
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setAppartment}
@@ -340,6 +360,8 @@ const RegisterScreen = ({ navigation }) => {
               placeholder={"Appartment…"}
             />
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setCity}
@@ -349,6 +371,8 @@ const RegisterScreen = ({ navigation }) => {
           </View>
           <View style={styles.inputGroup}>
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setState}
@@ -356,6 +380,8 @@ const RegisterScreen = ({ navigation }) => {
               placeholder={"State/Province…"}
             />
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               style={styles.inputInner}
               inputAccessoryViewID={inputAccessoryViewID}
               onChangeText={setCountry}

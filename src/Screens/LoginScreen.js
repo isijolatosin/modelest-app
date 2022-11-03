@@ -99,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
           }, 3000);
           setTimeout(() => {
             persistLogin(user, msg, type);
-          }, 5000);
+          }, 4000);
         } else {
           const type = "FAILED";
           handleMessage(msg, type);
@@ -133,6 +133,8 @@ const LoginScreen = ({ navigation }) => {
             <Heading children="Login" />
           </View>
           <TextInput
+            keyboardType="email-address"
+            enablesReturnKeyAutomatically={true}
             name="email"
             style={styles.input}
             onChangeText={setEmail}
@@ -144,11 +146,13 @@ const LoginScreen = ({ navigation }) => {
           />
           <View style={[styles.password]}>
             <TextInput
+              keyboardType="default"
+              enablesReturnKeyAutomatically={true}
               value={password}
               name="passwordHash"
               placeholder={"Password…"}
-              setFocus={focus}
               onChangeText={setPassword}
+              setFocus={focus}
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
               secureTextEntry={secure} //we just added this

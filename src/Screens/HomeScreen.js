@@ -16,6 +16,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import { Switch } from "react-native-switch";
 import "expo/AppEntry";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "../components/CredentialsContext";
@@ -31,8 +32,15 @@ const { height, width } = Dimensions.get("window");
 
 export default function HomeScreen({ navigation }) {
   const [allWigsCloudinaryImg, setAllWigsCloudinaryImg] = React.useState([]);
+  const [isEnabled, setIsEnabled] = React.useState(false);
   const { storedCredentials, setStoredCredentials } =
     React.useContext(CredentialsContext);
+
+  React.useEffect(() => {
+    if (storedCredentials) {
+      setIsEnabled(true);
+    }
+  }, [storedCredentials]);
 
   const clearLogin = () => {
     AsyncStorage.removeItem("modelestCredentials")
@@ -74,21 +82,22 @@ export default function HomeScreen({ navigation }) {
   if (!interLoaded || !arizoniaLoaded) {
     return null;
   }
+  const handleStatus = () => {
+    if (storedCredentials) {
+      clearLogin();
+      setIsEnabled(false);
+    }
+    if (!isEnabled) {
+      setIsEnabled(true);
+      setTimeout(() => {
+        navigation.navigate("Login-Screen");
+      }, 500);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <PictureSlide images={allWigsCloudinaryImg} />
-      <View style={styles.log}>
-        {storedCredentials?.email ? (
-          <TouchableOpacity onPress={clearLogin}>
-            <Text style={styles.loginout}>LogOut</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={() => navigation.navigate("Login-Screen")}>
-            <Text style={styles.loginout}>LogIn</Text>
-          </TouchableOpacity>
-        )}
-      </View>
       <Avatar.Image
         style={styles.avatarImage}
         size={65}
@@ -106,17 +115,53 @@ export default function HomeScreen({ navigation }) {
         />
       )}
       <View style={styles.btnWrapper}>
-        <TouchableOpacity onPress={() => navigation.navigate("Shop-Screen")}>
-          <Button
-            style={styles.btn}
-            title="Shop"
-            size={18}
-            clr={color.gold}
-            bgclr={color.black}
-            width={width / 3}
-            rounded={50}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ marginRight: 5 }}>
+            <Switch
+              value={isEnabled}
+              onValueChange={handleStatus}
+              disabled={false}
+              activeText={"Logout"}
+              inActiveText={"Login"}
+              circleSize={10}
+              barHeight={40}
+              circleBorderWidth={0}
+              backgroundActive={color.black}
+              backgroundInactive={color.black}
+              circleActiveColor={color.green}
+              circleInActiveColor={color.gold}
+              //renderInsideCircle={() => <Text>Login</Text>} // custom component to render inside the Switch circle (Text, Image, etc.)
+              changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
+              innerCircleStyle={[
+                {
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 55,
+                  height: 35,
+                },
+                isEnabled ? { marginLeft: 15 } : { marginRight: 20 },
+              ]} // style for inner animated circle for what you (may) be rendering inside the circle
+              outerCircleStyle={isEnabled ? { width: 140 } : { width: 130 }} // style for outer animated circle
+              renderActiveText={true}
+              renderInActiveText={true}
+              switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
+              switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
+              switchWidthMultiplier={13.5} // multiplied by the `circleSize` prop to calculate total width of the Switch
+              switchBorderRadius={5} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
+            />
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Shop-Screen")}>
+            <Button
+              style={styles.btn}
+              title="Shop"
+              size={18}
+              clr={color.gold}
+              bgclr={color.black}
+              width={width / 3}
+              rounded={5}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.motto}>
           <Text style={styles.mottoText}>Your please, our luxury...</Text>
         </View>
@@ -145,9 +190,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     color: color.black,
-    backgroundColor: color.white,
+    backgroundColor: color.torquoise,
     top: 30,
-    right: 10,
+    right: 20,
   },
   motto: {
     marginTop: 5,
@@ -165,22 +210,5 @@ const styles = StyleSheet.create({
   userText: {
     color: color.white,
     fontSize: fontSizes.lg,
-  },
-  log: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 55,
-    left: 0,
-    marginLeft: 20,
-    backgroundColor: color.black,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-  loginout: {
-    marginHorizontal: 5,
-    color: color.gold,
-    fontSize: fontSizes.sm,
-    fontWeight: "bold",
   },
 });

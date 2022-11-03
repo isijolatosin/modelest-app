@@ -10,13 +10,17 @@ import {
 import { CredentialsContext } from "../components/CredentialsContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { color } from "../constants/colors";
 import { fontSizes } from "../constants/fonts";
+import { selectItemCount } from "../slices/appSlices";
+import { useSelector } from "react-redux";
 
-const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
+const Footer = ({ route, navigation }) => {
   const [active, setActive] = React.useState("");
   const { storedCredentials } = React.useContext(CredentialsContext);
+  const itemCount = useSelector(selectItemCount);
 
   React.useEffect(() => {
     setActive(route.name);
@@ -54,16 +58,15 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
 
       <TouchableOpacity
         onPress={() => {
-          setShowSearch(!showSearch);
-          setActive("search");
+          setActive("category");
         }}
         style={styles.icons}
       >
-        <AntDesign
-          name="search1"
+        <MaterialIcons
+          name="category"
           size={18}
           color={
-            active === "search" && active !== "Shop-Screen"
+            active === "category" && active !== "Shop-Screen"
               ? color.gold
               : color.white
           }
@@ -71,12 +74,12 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
         <Text
           style={
             (styles.iconText,
-            active === "search" && active !== "Shop-Screen"
+            active === "category" && active !== "Shop-Screen"
               ? { color: color.gold, fontSize: 10 }
               : { color: color.white, fontSize: 10 })
           }
         >
-          Search
+          Category
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -125,7 +128,7 @@ const Footer = ({ setShowSearch, showSearch, route, navigation }) => {
             }
           />
           <View style={styles.countTextWrapper}>
-            <Text style={styles.countText}>0</Text>
+            <Text style={styles.countText}>{itemCount}</Text>
           </View>
         </View>
         <Text

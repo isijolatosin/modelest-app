@@ -11,6 +11,7 @@ import axios from "axios";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AllProducts from "../components/AllProducts";
 import { color } from "../constants/colors";
+import { variables } from "../constants/variables";
 
 const VirginWigsScreen = ({ navigation, route }) => {
   const parameter = route?.params?.parameter;
@@ -21,7 +22,7 @@ const VirginWigsScreen = ({ navigation, route }) => {
       const {
         data: { productSelect },
       } = await axios.get(
-        `${process.env.REACT_APP_NGROK_URL}/api/v1/products/filter`
+        `${variables.REACT_APP_NGROK_URL}/api/v1/products/filter`
       );
       setWigs(
         productSelect.filter(

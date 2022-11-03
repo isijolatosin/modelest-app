@@ -91,4 +91,13 @@ export const variables = {
     "https://res.cloudinary.com/dhdccvkyt/image/upload/v",
   REACT_APP_LOGO:
     "https://res.cloudinary.com/dhdccvkyt/image/upload/v1662354896/logo2_bplizf.png",
+  REACT_APP_STRIPE_LOGO:
+    "https://res.cloudinary.com/dhdccvkyt/image/upload/v1665628485/modelest-upload/general/stripe_xiepeb.png",
+  REACT_APP_PAYPAL_LOGO:
+    "https://res.cloudinary.com/dhdccvkyt/image/upload/v1665628485/modelest-upload/general/paypal_fmfyky.png",
+  REACT_APP_NGROK_URL: "https://1e3e-70-53-229-188.ngrok.io",
+  REACT_APP_STRIPE_PRIVATE_KEY:
+    "sk_test_51KQIMSLTIkVkSAcpLwtCUayfIsjHbN7OyAA6DMtjhLedRLu3yYg2mxSPBSKP0SWoeRn4XYsPjG18SRgWRAAB0FyF00Eqh5KOHh",
+  REACT_APP_STRIPE_PUBLIC_KEY:
+    "pk_test_51KQIMSLTIkVkSAcpD7IaQm0BSEChEJAB7C0xSnN4jRuBpy1wIDrVmHPtx9KMxqRq5R1e8jTwTdLTBntFC0VQ0B6e00pASS77xW",
 };

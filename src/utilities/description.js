@@ -1,4 +1,4 @@
-export function description(singleProducts, avesizes) {
+export function descriptionFunc(singleProducts, avesizes) {
   const texture = ["Straight", "Bodywave", "Curly", "Wavy"];
   return [
     { key: "Brand", value: `Raw ${singleProducts?.brand} hair` },

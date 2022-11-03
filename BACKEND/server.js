@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const Stripe = require("stripe");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,6 +15,13 @@ const categoryRouter = require("./routes/category");
 const orderRouter = require("./routes/orders");
 const authJwt = require("./helpers/jwt");
 const errorHandler = require("./helpers/error-handler");
+
+const stripe = Stripe(
+  "sk_test_51KQIMSLTIkVkSAcpLwtCUayfIsjHbN7OyAA6DMtjhLedRLu3yYg2mxSPBSKP0SWoeRn4XYsPjG18SRgWRAAB0FyF00Eqh5KOHh",
+  {
+    apiVersion: "2020-08-27",
+  }
+);
 
 const PORT = process.env.PORT || 3000;
 const api = process.env.BASE_ROUTE;
@@ -41,6 +49,24 @@ app.use(`${api}/products`, productsRouter);
 app.use(`${api}/users`, usersRouter);
 app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/orders`, orderRouter);
+
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: req.body.price * 100,
+      currency: "usd",
+      payment_method_types: ["card"],
+    });
+    const clientSecret = paymentIntent.client_secret;
+
+    res.json({
+      clientSecret: clientSecret,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ errorMsg: error.message });
+  }
+});
 
 // not found
 app.use(notFound);
