@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Button = ({ title, size, bgclr, clr, width, rounded }) => {
+const Button = ({ title, size, bgclr, clr, width, rounded, heightNo }) => {
   return (
     <View
       style={[
@@ -10,6 +10,7 @@ const Button = ({ title, size, bgclr, clr, width, rounded }) => {
           backgroundColor: bgclr,
           width: width,
           borderRadius: rounded,
+          height: heightNo,
         },
       ]}
     >

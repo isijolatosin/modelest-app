@@ -119,9 +119,11 @@ const createOrder = asyncWrapper(async (req, res, next) => {
 
 // UPDATE PRODUCT***************************
 const updateOrder = asyncWrapper(async (req, res, next) => {
+  // console.log(req.body.status);
   await Order.findOneAndUpdate(
     { _id: req.params.id },
     {
+      orderItems: req.body.orderItems,
       status: req.body.status,
     },
     {

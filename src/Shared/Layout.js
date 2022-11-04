@@ -39,7 +39,7 @@ export default Layout;
 const styles = StyleSheet.create({
   container: { fbackgroundColor: color.offWhite, flex: 1 },
   children: {
-    height: Platform.OS === variables.isAndroid ? height - 150 : height - 150,
+    height: Platform.OS === variables.isAndroid ? height - 150 : height - 200,
   },
   footer: {
     position: "absolute",

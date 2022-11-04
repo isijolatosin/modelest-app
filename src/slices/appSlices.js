@@ -30,7 +30,11 @@ export const appSlices = createSlice({
     },
     // clear order payload
     clearOrderPayload: (state) => {
-      state.orderPayload = {};
+      state.orderPayload = "";
+    },
+    // clear order status
+    clearOrderStatus: (state) => {
+      state.orderStatus = "";
     },
     // Add item
     addToCartItem: (state, action) => {
@@ -157,6 +161,7 @@ export const {
   setOrderStatus,
   setOrderPayload,
   clearOrderPayload,
+  clearOrderStatus,
 } = appSlices.actions;
 
 // Selectors

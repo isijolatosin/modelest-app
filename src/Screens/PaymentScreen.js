@@ -1,21 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React from "react";
-import {
-  Dimensions,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useDispatch } from "react-redux";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { color } from "../constants/colors";
-// import { variables } from "../constants/variables";
-import { clearCartItem, selectOrderPayload } from "../slices/appSlices";
+import { selectOrderPayload } from "../slices/appSlices";
 import PaymentProductComponent from "../components/PaymentProductComponent";
 import { fontSizes } from "../constants/fonts";
 import { variables } from "../constants/variables";
@@ -23,15 +12,8 @@ import Heading from "../Shared/Heading";
 import StripeApp from "../components/StripeApp";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
-const { width } = Dimensions.get("window");
-
 const PaymentScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
   const orderPayload = useSelector(selectOrderPayload);
-  const [message, setMessage] = React.useState();
-  const [proceed, setProceed] = React.useState(false);
-  const [messageType, setMessageType] = React.useState();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [customerDetails, setCustomerDetails] = React.useState([]);
   const [orderDetails, setOrderDetails] = React.useState([]);
 
@@ -68,31 +50,12 @@ const PaymentScreen = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    // dispatch(setOrderStatus(false));
     fetchOrder();
   }, []);
 
-  const _clearCartItem = () => {
-    dispatch(clearCartItem());
-  };
-  const handleMessage = (msg, type = "FAILED") => {
-    setMessage(msg);
-    setMessageType(type);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={[styles.backWrapper]}
-      >
-        <MaterialIcons
-          name="keyboard-backspace"
-          size={30}
-          color={color.white}
-          style={styles.back}
-        />
-      </TouchableOpacity>
+      <StatusBar backgroundColor={color.darkgrey} />
       {customerDetails.map((order) => (
         <View key={order?.id}>
           <View style={{ backgroundColor: color.lightgrey, padding: 20 }}>
@@ -124,7 +87,7 @@ const PaymentScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flex: 0.55 }}>
+          <View style={{ flex: 0.4 }}>
             <Heading
               children="Order Details"
               noBorder={true}
@@ -135,7 +98,7 @@ const PaymentScreen = ({ navigation }) => {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              flex: 0.45,
+              flex: 0.6,
             }}
           >
             <Text style={{ fontWeight: "bold", color: color.lightgray }}>
@@ -154,7 +117,11 @@ const PaymentScreen = ({ navigation }) => {
           <PaymentProductComponent products={orderDetails} />
         </View>
         <StripeProvider publishableKey={variables.REACT_APP_STRIPE_PUBLIC_KEY}>
-          <StripeApp total={orderDetails?.totalPrice} />
+          <StripeApp
+            total={orderDetails?.totalPrice}
+            orderPayload={orderPayload}
+            navigation={navigation}
+          />
         </StripeProvider>
       </View>
     </SafeAreaView>
@@ -168,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.white,
     // StatusBar.currentHeight only works for android
-    paddingTop: StatusBar.currentHeight + 10,
+    // paddingTop: StatusBar.currentHeight + 10,
     position: "relative",
   },
   backWrapper: {

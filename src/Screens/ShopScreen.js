@@ -46,6 +46,7 @@ const ShopScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={color.darkgrey} />
       <Layout
         route={route}
         navigation={navigation}

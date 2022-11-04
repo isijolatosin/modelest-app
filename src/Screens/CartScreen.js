@@ -19,12 +19,10 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { color } from "../constants/colors";
-// import { variables } from "../constants/variables";
 import {
   clearCartItem,
   selectCartItems,
   selectItemCount,
-  selectOrderPayload,
   selectOrderStatus,
   selectTotal,
   setOrderPayload,
@@ -63,7 +61,6 @@ const CartScreen = ({ navigation }) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { storedCredentials } = React.useContext(CredentialsContext);
   const [isChangeAddress, setIsChangeAddress] = React.useState(false);
-  const orderPayload = useSelector(selectOrderPayload);
 
   const _clearCartItem = () => {
     dispatch(clearCartItem());
@@ -144,20 +141,10 @@ const CartScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar backgroundColor={color.darkgrey} />
       <View>
         {cartItems.length ? (
           <View>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={[styles.backWrapper]}
-            >
-              <MaterialIcons
-                name="keyboard-backspace"
-                size={30}
-                color={color.white}
-                style={styles.back}
-              />
-            </TouchableOpacity>
             <CartproductComponent
               products={cartItems}
               navigation={navigation}
@@ -647,8 +634,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.white,
     // StatusBar.currentHeight only works for android
-    paddingTop:
-      StatusBar.currentHeight + Platform.OS === variables.isAndroid ? 20 : 50,
+    // paddingTop:
+    //   StatusBar.currentHeight + Platform.OS === variables.isAndroid ? 20 : 50,
   },
   backWrapper: {
     position: "absolute",
@@ -677,7 +664,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     borderRadius: 50,
-    width: width / 3,
+    width: width / 2.5,
+    paddingRight: 5,
   },
   input: {
     borderWidth: 0.5,

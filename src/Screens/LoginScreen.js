@@ -130,7 +130,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={{ marginBottom: 20 }}>
-            <Heading children="Login" />
+            <Heading children="Login" noBorder={true} />
           </View>
           <TextInput
             keyboardType="email-address"

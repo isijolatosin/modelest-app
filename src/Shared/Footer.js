@@ -151,7 +151,7 @@ export default Footer;
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: color.chocolate,
+    backgroundColor: color.darkgrey,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -167,13 +167,6 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     textTransform: "uppercase",
   },
-  imagewrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  image: {
-    backgroundColor: color.chocolate,
-  },
   icons: {
     alignItems: "center",
   },
@@ -182,7 +175,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: -15,
     top: -18,
-    backgroundColor: color.chocolate,
+    backgroundColor: color.darkgrey,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

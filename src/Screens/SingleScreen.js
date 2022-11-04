@@ -7,6 +7,7 @@ import {
   Text,
   Dimensions,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -23,7 +24,11 @@ import { variables } from "../constants/variables";
 import { TextInput } from "react-native-gesture-handler";
 import MessageBox from "../Shared/MessageBox";
 import { useDispatch } from "react-redux";
-import { addToCartItem, selectCartItems } from "../slices/appSlices";
+import {
+  addToCartItem,
+  increaseCartItem,
+  selectCartItems,
+} from "../slices/appSlices";
 import { isInCart } from "../utilities/isInCart";
 import { useSelector } from "react-redux";
 
@@ -32,11 +37,13 @@ const SingleScreen = ({ navigation, route }) => {
   const singleProductId =
     route.params.singleProduct.id || route.params.singleProduct._id;
   const [singleProduct, setProduct] = React.useState([]);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [length, setLength] = React.useState("");
   const { width } = Dimensions.get("window");
   const [focus, setFocus] = React.useState(false);
-  const [noFieldError, setNoFieldError] = React.useState(false);
-  const [qty, setQuantity] = React.useState(1);
+  const [noFieldErrorLength, setNoFieldErrorLength] = React.useState(false);
+  const [noFieldErrorQty, setNoFieldErrorQty] = React.useState(false);
+  const [qty, setQuantity] = React.useState();
   const [messageType, setMessageType] = React.useState();
   const [message, setMessage] = React.useState("");
   const cartItems = useSelector(selectCartItems);
@@ -72,6 +79,7 @@ const SingleScreen = ({ navigation, route }) => {
 
   const addToCart = () => {
     if (length && qty) {
+      setIsSubmitting(true);
       const quantity = +qty;
       const id = singleProduct?.id;
       const description = singleProduct?.description;
@@ -80,21 +88,50 @@ const SingleScreen = ({ navigation, route }) => {
       const price = singleProduct?.price;
 
       const productObj = { id, name, description, image, price, quantity };
-      dispatch(addToCartItem(productObj));
-      handleMessage("Product added to Cart Successfully", "SUCCESS");
+      setTimeout(() => {
+        dispatch(addToCartItem(productObj));
+        handleMessage("Product added to Cart Successfully", "SUCCESS");
+        setIsSubmitting(false);
+        setNoFieldErrorQty(false);
+        setNoFieldErrorLength(false);
+        setQuantity();
+        setLength();
+      }, 3000);
     } else {
-      setNoFieldError(true);
-      handleMessage("Please provide required fields", "FAILED");
+      setNoFieldErrorQty(true);
+      setNoFieldErrorLength(true);
+      setIsSubmitting(false);
+      handleMessage("Check! you may be missing a field", "FAILED");
     }
   };
   const addMoreToCart = () => {
     if (length && qty) {
+      if (message) {
+        setMessage();
+      }
+      setIsSubmitting(true);
       const quantity = +qty;
-      const productObj = { quantity, singleProduct };
-      dispatch(addToCartItem(productObj));
-      handleMessage("Product added to Cart Successfully", "SUCCESS");
+      const id = singleProduct?.id;
+      const description = singleProduct?.description;
+      const image = singleProduct?.images[0];
+      const name = singleProduct?.name;
+      const price = singleProduct?.price;
+
+      const productObj = { id, name, description, image, price, quantity };
+      setTimeout(() => {
+        dispatch(increaseCartItem(productObj));
+        handleMessage("Product added to Cart Successfully", "SUCCESS");
+        setIsSubmitting(false);
+        setNoFieldErrorQty(false);
+        setNoFieldErrorLength(false);
+        setQuantity();
+        setLength();
+      }, 3000);
     } else {
-      handleMessage("Please provide required fields", "FAILED");
+      setNoFieldErrorQty(true);
+      setNoFieldErrorLength(true);
+      setIsSubmitting(false);
+      handleMessage("Check! you may be missing a field", "FAILED");
     }
   };
 
@@ -145,7 +182,7 @@ const SingleScreen = ({ navigation, route }) => {
                           backgroundColor: color.chocolate,
                           color: color.white,
                         },
-                        noFieldError && { borderColor: color.red },
+                        noFieldErrorLength && { borderColor: color.red },
                       ]}
                     >
                       {size}
@@ -164,7 +201,7 @@ const SingleScreen = ({ navigation, route }) => {
                 onBlur={() => setFocus(false)}
                 style={{
                   borderWidth: 0.5,
-                  borderColor: noFieldError ? color.red : color.chocolate,
+                  borderColor: noFieldErrorQty ? color.red : color.chocolate,
                   paddingVertical: 10,
                   marginBottom: 15,
                   borderRadius: 5,
@@ -178,7 +215,7 @@ const SingleScreen = ({ navigation, route }) => {
           <View style={{ marginHorizontal: 15 }}>
             <View>
               <Text style={{ fontSize: fontSizes.lg, fontWeight: "900" }}>
-                ${singleProduct?.price * qty}.00
+                ${qty ? singleProduct?.price * qty : singleProduct?.price}.00
               </Text>
               <Text style={styles.text}>Color: {singleProduct?.color}</Text>
               <Text style={styles.text}>Texture: {singleProduct?.texture}</Text>
@@ -194,29 +231,49 @@ const SingleScreen = ({ navigation, route }) => {
           {isInCart(singleProduct, cartItems) ? (
             <TouchableOpacity
               onPress={addMoreToCart}
-              style={{ alignItems: "center", marginVertical: 10 }}
+              style={{
+                alignItems: "center",
+                marginVertical: 10,
+              }}
             >
               <Button
-                title="Add more"
+                title={
+                  isSubmitting ? (
+                    <ActivityIndicator color={color?.torquoise} />
+                  ) : (
+                    "Add more"
+                  )
+                }
                 bgclr={color.chocolate}
                 clr={color.white}
-                width={width - 28}
+                width="93%"
                 rounded={3}
                 size={fontSizes.sm}
+                heightNo={40}
               />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={addToCart}
-              style={{ alignItems: "center", marginVertical: 10 }}
+              style={{
+                alignItems: "center",
+                marginVertical: 10,
+              }}
             >
               <Button
-                title="Add to cart"
+                title={
+                  isSubmitting ? (
+                    <ActivityIndicator color={color?.torquoise} />
+                  ) : (
+                    "Add to Cart"
+                  )
+                }
                 bgclr={color.chocolate}
                 clr={color.white}
-                width={width - 28}
+                width="93%"
                 rounded={3}
                 size={fontSizes.sm}
+                heightNo={40}
               />
             </TouchableOpacity>
           )}

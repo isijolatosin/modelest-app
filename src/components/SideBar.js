@@ -15,11 +15,12 @@ const SideBar = ({ navigation, setShowBar }) => {
 
   const HandleMenu = (e) => {
     // console.log(e)
-    if (menuSelect) {
-      setMenuSelect("");
-    } else {
-      setMenuSelect(e);
-    }
+    // if (menuSelect) {
+    //   setMenuSelect("");
+    // } else {
+    //   setMenuSelect(e);
+    // }
+    setMenuSelect(e);
   };
 
   return (

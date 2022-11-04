@@ -14,7 +14,10 @@ function authJwt() {
       { url: /\/api\/v1\/products(.*)/, methods: ["GET", "OPTIONS"] },
       { url: /\/api\/v1\/products\/uploads(.*)/, methods: ["GET", "OPTIONS"] },
       { url: /\/api\/v1\/categories(.*)/, methods: ["GET", "OPTIONS"] },
-      { url: /\/api\/v1\/orders(.*)/, methods: ["GET", "POST"] },
+      {
+        url: /\/api\/v1\/orders(.*)/,
+        methods: ["GET", "POST", "PATCH", "OPTIONS"],
+      },
       `${api}/users/login`,
       `${api}/users/register`,
       "/create-payment-intent",

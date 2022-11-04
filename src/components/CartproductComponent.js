@@ -98,7 +98,8 @@ export default function CartproductComponent({ products, navigation }) {
 // const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   gridView: {
-    marginVertical: 20,
+    marginBottom: 20,
+    marginTop: 5,
   },
   itemContainer: {
     flexDirection: "row",

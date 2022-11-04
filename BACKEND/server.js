@@ -43,6 +43,7 @@ app.use(errorHandler);
 
 app.use(express.static("../build"));
 app.use(express.static("../public"));
+app.use(require("body-parser").json());
 
 // routes
 app.use(`${api}/products`, productsRouter);

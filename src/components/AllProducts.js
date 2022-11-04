@@ -4,6 +4,7 @@ import { Card, Title } from "react-native-paper";
 import React from "react";
 import { color } from "../constants/colors";
 import truncate from "../utilities/truncate";
+import { fontSizes } from "../constants/fonts";
 
 // const LeftContent = (props) => <Avatar.Icon {...props} icon="person" />;
 
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: "flex-end",
     borderRadius: 5,
-    paddingVertical: 10,
+    paddingBottom: 10,
     height: 300,
     overflow: "hidden",
   },
@@ -66,10 +67,12 @@ const styles = StyleSheet.create({
     height: 70,
   },
   itemName: {
-    fontSize: 14,
+    fontSize: fontSizes.xs,
     color: color.chocolate,
     fontWeight: "900",
     marginBottom: -6,
+    lineHeight: 12,
+    marginTop: 5,
   },
   itemPrice: {
     fontWeight: "500",
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
   },
   itemDesc: {
     fontSize: 12,
+    marginTop: 5,
     color: color.darkgrey,
   },
 });

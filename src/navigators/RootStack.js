@@ -12,6 +12,7 @@ import PaymentScreen from "../Screens/PaymentScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import RegisterScreen from "../Screens/RegisterScreen";
 import VirginWigsScreen from "../Screens/VirginWigsScreen";
+import { color } from "../constants/colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,20 +35,72 @@ const RootStack = () => {
               component={HomeScreen}
             />
             <Stack.Screen
-              options={{ headerShown: true, title: "Shop" }}
+              options={{
+                headerShown: true,
+                title: "Shop",
+                headerStyle: {
+                  backgroundColor: color.darkgrey,
+                },
+                headerTintColor: color.gold,
+                headerTitleStyle: {
+                  fontWeight: "300",
+                },
+              }}
               name="Shop-Screen"
               component={ShopScreen}
             />
             <Stack.Screen name="Single-Screen" component={SingleScreen} />
-            <Stack.Screen name="Cart-Screen" component={CartScreen} />
-            <Stack.Screen name="Payment-Screen" component={PaymentScreen} />
+            <Stack.Screen
+              options={{
+                headerShown: true,
+                title: "Shopping Cart",
+                headerStyle: {
+                  backgroundColor: color.darkgrey,
+                },
+                headerTintColor: color.gold,
+                headerTitleStyle: {
+                  fontWeight: "300",
+                },
+              }}
+              name="Cart-Screen"
+              component={CartScreen}
+            />
             <Stack.Screen
               name="Virgin-wigs-Screen"
               component={VirginWigsScreen}
             />
             {storedCredentials ? (
               <>
-                <Stack.Screen name="Profile-Screen" component={ProfileScreen} />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    title: "Payment",
+                    headerStyle: {
+                      backgroundColor: color.darkgrey,
+                    },
+                    headerTintColor: color.gold,
+                    headerTitleStyle: {
+                      fontWeight: "300",
+                    },
+                  }}
+                  name="Payment-Screen"
+                  component={PaymentScreen}
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    title: "Your Profile",
+                    headerStyle: {
+                      backgroundColor: color.darkgrey,
+                    },
+                    headerTintColor: color.gold,
+                    headerTitleStyle: {
+                      fontWeight: "300",
+                    },
+                  }}
+                  name="Profile-Screen"
+                  component={ProfileScreen}
+                />
               </>
             ) : (
               <>
